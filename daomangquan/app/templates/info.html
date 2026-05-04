@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}信息库{% endblock %}
+{% block content %}
+<div class="card">
+    <h2 class="title">📚 分类信息库</h2>
+    <div id="info_list"></div>
+</div>
+<script>
+fetch('/api/info').then(res => res.json()).then(data => {
+    let html = '';
+    data.data.forEach(item => {
+        html += `
+        <div class="list-item">
+            <h3>${item.title}</h3>
+            <p>${item.content}</p>
+        </div>`;
+    });
+    document.getElementById('info_list').innerHTML = html;
+});
+</script>
+{% endblock %}

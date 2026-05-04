@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}互助论坛{% endblock %}
+{% block content %}
+<div class="card">
+    <h2 class="title">💬 互助论坛</h2>
+    {% if session.user_id %}
+    <input id="title" placeholder="帖子标题">
+    <textarea id="content" rows="4" placeholder="分享你的问题或经验"></textarea>
+    <button class="btn" onclick="post()">发布帖子</button>
+    {% else %}
+    <p style="color: var(--text-light);">登录后即可发布帖子，和同学一起交流。</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3 class="title">📋 帖子列表</h3>
+    <div id="post_list"></div>
+</div>
+
+<script>
+function loadPosts() {
+    fetch('/api/posts').then(res => res.json()).then(data => {
+        let html = '';
+        data.data.forEach(p => {
+            html += `
+            <div class="list-item">
+                <h3>${p.title}</h3>
+                <p>${p.content}</p>
+                <small style="color: var(--text-light);">发布时间：${p.create_time}</small>
+            </div>`;
+        });
+        document.getElementById('post_list').innerHTML = html;
+    });
+}
+function post() {
+    post('/api/post', {
+        title: document.getElementById('title').value,
+        content: document.getElementById('content').value
+    }, d => { alert(d.msg); loadPosts(); });
+}
+loadPosts();
+</script>
+{% endblock %}

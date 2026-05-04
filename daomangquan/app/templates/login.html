@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}登录{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 450px; margin: 40px auto;">
+    <h2 class="title">🔐 用户登录</h2>
+    <input id="username" placeholder="请输入用户名">
+    <input id="password" type="password" placeholder="请输入密码">
+    <button class="btn" style="width: 100%;" onclick="login()">登录</button>
+    <p style="text-align: center; margin-top: 16px; color: var(--text-light);">
+        还没有账号？<a href="/register" style="color: var(--primary); text-decoration: none;">立即注册</a>
+    </p>
+</div>
+<script>
+function login() {
+    post('/login', {
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
+    }, d => {
+        d.code === 200 ? location.href = '/' : alert(d.msg);
+    });
+}
+</script>
+{% endblock %}

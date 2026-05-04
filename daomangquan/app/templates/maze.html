@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}迷茫检测{% endblock %}
+{% block content %}
+<div class="card">
+    <h2 class="title">🔍 迷茫检测</h2>
+    <p style="color: var(--text-light); margin-bottom: 16px;">
+        描述你的困惑（学习/就业/生活/人际），系统将为你生成个性化信息推荐。
+    </p>
+    <textarea id="content" rows="6" placeholder="请输入你的困惑..."></textarea>
+    <button class="btn" onclick="detect()">提交检测</button>
+</div>
+<script>
+function detect() {
+    post('/api/maze', {
+        content: document.getElementById('content').value
+    }, d => alert(d.msg));
+}
+</script>
+{% endblock %}
